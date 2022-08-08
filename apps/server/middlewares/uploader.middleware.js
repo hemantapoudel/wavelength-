@@ -8,7 +8,7 @@ const myStorage = multer.diskStorage({
     },
     filename: (req, file, cb) =>{
 
-        let filename = file.originalname+Date.now();
+        let filename = Date.now()+"."+file.originalname.split(".").pop();
         cb(null, filename);
     }
 })
@@ -18,6 +18,7 @@ const uploader = multer({
     fileFilter: (req, file, cb) => {
         let ext_parts = file.originalname.split(".");        
         let ext = ext_parts.pop();
+        console.log(ext)
         try{
             let allowed = ['jpg', 'jpeg', 'png','gif','bmp','webp','svg'];
             if(allowed.includes(ext.toLowerCase())){

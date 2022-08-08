@@ -8,7 +8,7 @@ class AuthController{
     login = async (req,res,next) =>{
         let data=req.body;
         try{
-            let result=await User.findOne({phone:data.phone},)
+            let result=await User.findOne({phone:data.phone})
             if(result){
                 if(bcrypt.compareSync(data.password,result.password)){
                     let token = this.generateToken({
@@ -19,6 +19,9 @@ class AuthController{
                         course:result.course
 
                     })
+                    if(result['profile_pic']){result['profile_pic']=CONSTANTS.host + result['profile_pic']}
+                    
+                    console.log(result['profile_pic'])
                     res.json({
                         token:token,
                         user:result,

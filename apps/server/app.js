@@ -5,7 +5,7 @@ require("./config/mongo.config")
 
 const routes = require("./routes/index")
 app.use("/api/v1",routes)
-
+app.use('/uploads', express.static('uploads'));
 
 
 
