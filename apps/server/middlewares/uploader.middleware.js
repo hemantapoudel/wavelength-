@@ -1,0 +1,35 @@
+const multer = require("multer");
+
+
+const myStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        let path = "uploads/";
+        cb(null, path)
+    },
+    filename: (req, file, cb) =>{
+
+        let filename = file.originalname+Date.now();
+        cb(null, filename);
+    }
+})
+
+const uploader = multer({
+    storage: myStorage,
+    fileFilter: (req, file, cb) => {
+        let ext_parts = file.originalname.split(".");        
+        let ext = ext_parts.pop();
+        try{
+            let allowed = ['jpg', 'jpeg', 'png','gif','bmp','webp','svg'];
+            if(allowed.includes(ext.toLowerCase())){
+                cb(null, true);
+            } else {
+                cb(null, false);
+            }
+        } catch(error) {
+            console.log("Error: ", error);
+        }
+    }
+});
+
+
+module.exports = uploader;
