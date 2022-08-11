@@ -8,8 +8,15 @@ class AuthController{
     login = async (req,res,next) =>{
         let data=req.body;
         try{
-            let result=await User.findOne({phone:data.phone})
-            if(result){
+            let result=await User.findOne({email:data.email})
+            if(!result){
+                res.status(400).json({
+                    result:null,
+                    status:false,
+                    msg:"User Not Found"
+                })
+                
+            } else{
                 if(bcrypt.compareSync(data.password,result.password)){
                     let token = this.generateToken({
                         id:result._id,
@@ -36,13 +43,7 @@ class AuthController{
                         status:false,
                         msg:"Password Doesn't matched"
                     })
-                }
-            } else{
-                res.status(400).json({
-                    result:null,
-                    status:false,
-                    msg:"User Not Found"
-                })
+                } 
             }
 
 
@@ -61,9 +62,9 @@ class AuthController{
         }
         data['password']=bcrypt.hashSync(data['password'],10);
         try{
-            let user=await User.findOne({phone:data.phone});
+            let user=await User.findOne({email:data.email});
             if(user){
-                next({status:400,msg:"Phone Number Already Registered"})
+                next({status:400,msg:"Email Already Registered"})
             } else{
                 let user=new User(data);
                 user.save()
