@@ -17,7 +17,14 @@ class AuthController{
                 })
                 
             } else{
-                if(bcrypt.compareSync(data.password,result.password)){
+                if(!bcrypt.compareSync(data.password,result.password)){
+                    res.status(400).json({
+                        result:null,
+                        status:false,
+                        msg:"Password Doesn't matched"
+                    })
+                }
+                else{
                     let token = this.generateToken({
                         id:result._id,
                         full_name:result.full_name,
@@ -27,8 +34,6 @@ class AuthController{
 
                     })
                     if(result['profile_pic']){result['profile_pic']=CONSTANTS.host + result['profile_pic']}
-                    
-                    console.log(result['profile_pic'])
                     res.json({
                         token:token,
                         user:result,
@@ -36,18 +41,9 @@ class AuthController{
                         msg:"You are successfully Logged In"
                     }
                     )
-                }
-                else{
-                    res.status(400).json({
-                        result:null,
-                        status:false,
-                        msg:"Password Doesn't matched"
-                    })
+                    
                 } 
             }
-
-
-
         } catch(error){
             next(error)
         }
