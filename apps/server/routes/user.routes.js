@@ -13,4 +13,7 @@ router.route('/user/add')
 router.route('/users')
     .get(isLoggedIn,isSuperadmin,user_control.listAll)
 
+router.route('/user/:id')
+    .get(isLoggedIn,isSuperadmin,user_control.show)
+
 module.exports = router

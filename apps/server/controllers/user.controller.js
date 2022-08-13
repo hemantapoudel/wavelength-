@@ -44,6 +44,19 @@ class UserController {
         }
     }
 
+    show = async (req,res,next) => {
+        try{
+            let user = await User.findById(req.params.id, {password:0});
+            res.json({
+                status:true, 
+                user:user, 
+                msg:"User Fetched Successfully"
+            })
+        } catch(error){
+            next({status:500,msg:"Error Fetching User"})
+        }
+    }
+
 
 
 }
