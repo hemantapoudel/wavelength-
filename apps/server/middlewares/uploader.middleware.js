@@ -18,7 +18,7 @@ const uploader = multer({
     fileFilter: (req, file, cb) => {
         let ext_parts = file.originalname.split(".");        
         let ext = ext_parts.pop();
-        console.log(ext)
+        
         try{
             let allowed = ['jpg', 'jpeg', 'png','gif','bmp','webp','svg'];
             if(allowed.includes(ext.toLowerCase())){

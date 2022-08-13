@@ -1,6 +1,7 @@
 const User = require("../models/user.model")
 const isSuperadmin = (req,res,next) => {
     let user =req.auth_user;
+    
     if(user && user.role === "super_admin"){
         next()
     } else{
@@ -10,6 +11,7 @@ const isSuperadmin = (req,res,next) => {
 
 const isAdmin = (req,res,next) => {
     let user =req.auth_user;
+    
     if(user && user.role === "admin"){
         next()
     } else{

@@ -2,20 +2,21 @@ let jwt = require("jsonwebtoken")
 let User = require("../models/user.model")
 let CONSTANTS = require("../config/constants")
 
-const isLoggedIn = (req,res,next) => {
+
+const isLoggedIn = async (req,res,next) => {
     let token = '';
     if(req.headers['authorization']){
         token = req.headers['authorization']
     }
-    let data=jwt.verify(token,CONSTANTS.JWT_SECRET);
-    if(!token || !data){
-        next({
-            status: 403,
-            msg:"Unauthorized Access"
-        })
-    }
-    else{
-        let user = User.findById(data.id)
+    try{
+        let data=jwt.verify(token,CONSTANTS.JWT_SECRET);
+        if(!token || !data){
+            next({
+                status: 401,
+                msg:"Unauthorized Accesss"
+            })
+        } else{
+        let user = await User.findById(data.id)
         if(!user){
             next({
                 status:403,
@@ -23,9 +24,16 @@ const isLoggedIn = (req,res,next) => {
             })
         }
         else{
-            req.auth_user=user;
+            req.auth_user=user
             next()
         }
+    }
+    }
+    catch(error){
+        next({
+            status: 401,
+            msg:"Unauthorized Access"
+        })
     }
 }
 

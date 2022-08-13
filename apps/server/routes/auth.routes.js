@@ -10,7 +10,7 @@ const auth_controller=new AuthController()
 const {sendVerificationCode,verify_user} = require("../config/nodemailer.config")
 
 router.route("/register")
-    .post(parser,uploader.single('image'),auth_controller.register)
+    .post(parser,uploader.single('profile_pic'),auth_controller.register)
 
 router.route("/login")
     .post(parser,auth_controller.login)
