@@ -31,6 +31,19 @@ class UserController {
         }
     }
 
+    listAll = async (req,res,next) => {
+        try{
+            let users = await User.find({},{password:0})
+            res.json({
+                result:users,
+                status:true,
+                msg:"All Users Fetched"
+            })
+        } catch(error){
+            next({status:500, msg:"Error Fetching Users Data"})
+        }
+    }
+
 
 
 }

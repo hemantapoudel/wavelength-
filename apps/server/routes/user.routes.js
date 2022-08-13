@@ -10,5 +10,7 @@ const uploader = require("../middlewares/uploader.middleware")
 router.route('/user/add')
     .post(isLoggedIn,isSuperadmin,uploader.single('profile_pic'),user_control.addUser)
 
+router.route('/users')
+    .get(isLoggedIn,isSuperadmin,user_control.listAll)
 
 module.exports = router
