@@ -58,6 +58,21 @@ class UserController {
         }
     }
 
+    deleteUser = async (req, res, next) => {
+        try{    
+            let delete_user = await User.findByIdAndDelete(req.params.id);
+            res.json({
+                result:delete_user,
+                status:true,
+                msg:"User Deleted Successfully"
+            })
+
+        } catch(error){
+            next({status:500,msg:"Error Deleting User"})
+        }
+    }
+
+    
     
 
 
