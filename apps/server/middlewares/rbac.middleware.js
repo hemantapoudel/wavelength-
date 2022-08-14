@@ -67,7 +67,7 @@ const isVerified = (req,res,next) => {
 const selfUpdate = async (req, res, next) => {
     try {
         let user = await User.findById(req.params.id);
-        if(user.id === req.auth_user.id){
+        if(user.id === req.auth_user.id || req.auth_user.role === "super_admin"){
             next()
         } else{
             next({status:403,msg:"Unauthorized Access"})
