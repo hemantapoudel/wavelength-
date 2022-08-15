@@ -118,7 +118,148 @@
                     }
                 }
             }
+        },
+
+        "/user/add":{
+            "post":{
+                "tags":["User"],
+                "description":"Add user by Super Admin",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "User details for creating account (Super user must be logged in)(pass jwt in headers with Authorization)",
+                    "schema": {
+                        "$ref": "#/definitions/addUser"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"User Successfully Registered"
+                    },
+                    "400":{
+                        "description":"Email Already Registered"
+                    },
+                    "401":{
+                        "description":"Unauthorized Access"
+                    }
+                }
+            }
+        },
+
+        "/users":{
+            "get":{
+                "tags":["User"],
+                "description":"List all users in the system",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "List all users (Only by superadmin)",
+                    "schema": {
+                        "$ref": "#/definitions/users"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"All Users Fetched"
+                    },
+                    "500":{
+                        "description":"Error fetching users data"
+                    }
+                    
+                }
+            }
+        },
+        "/user/fetch/{id}":{
+            "get":{
+                "tags":["User"],
+                "description":"Fetch individual user with user id",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "fetch individual user with id (Only by superadmin)",
+                    "schema": {
+                        "$ref": "#/definitions/users"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"User Fetched Successfully"
+                    },
+                    "500":{
+                        "description":"Error Fetching User"
+                    }
+                    
+                }
+            }
+        },
+        "/user/update/{id}":{
+            "put":{
+                "tags":["User"],
+                "description":"Update user",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "Update user details like password, profile_pic, address (Either by self or Super Admin)",
+                    "schema": {
+                        "$ref": "#/definitions/updateUser"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"User Updated Successfully"
+                    },
+                    "500":{
+                        "description":"Error updating User"
+                    },
+                    "401":{
+                        "description":"Unauthorized Access"
+                    }
+                    
+                }
+            }
+        },
+        "/user/delete/{id}":{
+            "delete":{
+                "tags":["User"],
+                "description":"Delete user",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "Delete the user by Super Admin",
+                    "schema": {
+                        "$ref": "#/definitions/users"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"User Deleted Successfully"
+                    },
+                    "500":{
+                        "description":"Error deleting User"
+                    },
+                    "401":{
+                        "description":"Unauthorized Access"
+                    }
+                    
+                }
+            }
         }
+
 
 
     },
@@ -138,6 +279,7 @@
                   }
             }
         },
+
         "register":{
             "required":[
                 "full_name",
@@ -145,7 +287,8 @@
                 "password",
                 "phone",
                 "address",
-                "course"
+                "course",
+                "profile_pic"
             ],
             "properties":{
                 "full_name": {
@@ -166,6 +309,9 @@
                   "course": {
                     "type": "string",
                     "enum": ["B.Sc.CSIT","BCA","CMAT","BIT","BE"]
+                  },
+                  "profile_pic": {
+                    "type": "string"
                   }
             }
         },
@@ -191,6 +337,69 @@
                     "type": "string"
                   },
                   "verification_code": {
+                    "type": "string"
+                  }
+            }
+        },
+
+        "addUser":{
+            "required":[
+                "full_name",
+                "email",
+                "password",
+                "phone",
+                "address",
+                "course",
+                "profile_pic"
+            ],
+            "properties":{
+                "full_name": {
+                    "type": "string"
+                  },
+                "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "course": {
+                    "type": "string",
+                    "enum": ["B.Sc.CSIT","BCA","CMAT","BIT","BE"]
+                  },
+                  "profile_pic": {
+                    "type": "string"
+                  }
+            }
+        },
+
+        "users":{
+            "required":[
+            ],
+            "properties":{
+            }
+        },
+        "updateUser":{
+            "required":[
+                "password",
+                "address",
+                "profile_pic"
+            ],
+            "properties":{
+               
+                  "password": {
+                    "type": "string"
+                  },
+                  
+                  "address": {
+                    "type": "string"
+                  },
+                  "profile_pic": {
                     "type": "string"
                   }
             }

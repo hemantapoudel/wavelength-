@@ -15,9 +15,13 @@ router.route('/user/add')
 router.route('/users')
     .get(isLoggedIn,isSuperadmin,user_control.listAll)
 
-router.route('/user/:id')
-    .put(isLoggedIn,selfUpdate,uploader.single('profile_pic'),updateUser)    
+router.route('/user/update/:id')
+    .put(isLoggedIn,selfUpdate,uploader.single('profile_pic'),updateUser) 
+
+router.route('/user/fetch/:id')
     .get(isLoggedIn,isSuperadmin,user_control.show)
+
+router.route('/user/delete/:id')   
     .delete(isLoggedIn,isSuperadmin,user_control.deleteUser)
 
 

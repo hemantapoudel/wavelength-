@@ -24,7 +24,7 @@ app.use((err,req,res,next)=>{
     )
 })        
 
-app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/documentation',swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(3001,"localhost",(err)=>{
     if(err){

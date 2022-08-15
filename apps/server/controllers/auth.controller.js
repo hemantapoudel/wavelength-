@@ -68,6 +68,7 @@ class AuthController{
                                 "phone":data.phone,
                                 "address":data.address,
                                 "course":data.course,
+                                "profile_pic":data.profile_pic
                             }
                 let user=new User(user_data);
                 user.save()
