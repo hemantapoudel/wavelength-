@@ -1,0 +1,201 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Wavelength API Documentation",
+      "description": "All CRUD Operation Documentation"
+      
+    },
+    "host": "localhost:3001/api/v1",
+    
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths":{
+        "/login":{
+            "post":{
+                "tags":["Login & Register"],
+                "description":"Login to the system",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "User that we want to login",
+                    "schema": {
+                        "$ref": "#/definitions/login"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"Successfully Logged In"
+                    },
+                    "400":{
+                        "description":"Invalid Credentials"
+                    }
+                }
+            }
+        },
+
+        "/register":{
+            "post":{
+                "tags":["Login & Register"],
+                "description":"Login to the system",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "User details for creating account",
+                    "schema": {
+                        "$ref": "#/definitions/register"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"User Successfully Registered"
+                    },
+                    "400":{
+                        "description":"Email Already Registered"
+                    }
+                }
+            }
+        },
+
+        "/send-verification-code":{
+            "post":{
+                "tags":["Verification"],
+                "description":"Verify through email",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "Email to send the verification code",
+                    "schema": {
+                        "$ref": "#/definitions/send-verification-code"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"Check your mail for verification code"
+                    },
+                    "401":{
+                        "description":"User with such email doesn't exist"
+                    },
+                    "400":{
+                        "description":"Error Sending Mail"
+                    }
+                }
+            }
+        },
+
+        "/verify-user":{
+            "put":{
+                "tags":["Verification"],
+                "description":"Verify through email",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "Post request with verification_code and email",
+                    "schema": {
+                        "$ref": "#/definitions/verify-user"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"User Verified Successfully"
+                    },
+                    
+                    "400":{
+                        "description":"Invalid Verification Code"
+                    }
+                }
+            }
+        }
+
+
+    },
+
+    "definitions":{
+        "login":{
+            "required":[
+                "email",
+                "password"
+            ],
+            "properties":{
+                "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+            }
+        },
+        "register":{
+            "required":[
+                "full_name",
+                "email",
+                "password",
+                "phone",
+                "address",
+                "course"
+            ],
+            "properties":{
+                "full_name": {
+                    "type": "string"
+                  },
+                "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "course": {
+                    "type": "string",
+                    "enum": ["B.Sc.CSIT","BCA","CMAT","BIT","BE"]
+                  }
+            }
+        },
+
+        "send-verification-code":{
+            "required":[
+                "email"
+            ],
+            "properties":{
+                "email": {
+                    "type": "string"
+                  }
+            }
+        },
+
+        "verify-user":{
+            "required":[
+                "email",
+                "verification_code"
+            ],
+            "properties":{
+                "email": {
+                    "type": "string"
+                  },
+                  "verification_code": {
+                    "type": "string"
+                  }
+            }
+        }
+
+
+    }
+  }

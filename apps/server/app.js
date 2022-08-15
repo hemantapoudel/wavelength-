@@ -7,6 +7,8 @@ const routes = require("./routes/index")
 app.use("/api/v1",routes)
 app.use('/uploads', express.static('uploads'));
 
+const swaggerUi = require('swagger-ui-express'),
+swaggerDocument = require('./swagger.json')
 
 
 
@@ -21,6 +23,8 @@ app.use((err,req,res,next)=>{
         }
     )
 })        
+
+app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(3001,"localhost",(err)=>{
     if(err){

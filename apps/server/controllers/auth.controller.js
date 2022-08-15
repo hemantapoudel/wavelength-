@@ -62,7 +62,14 @@ class AuthController{
             if(user){
                 next({status:400,msg:"Email Already Registered"})
             } else{
-                let user=new User(data);
+                let user_data = {"full_name":data.full_name,
+                                "email":data.email,
+                                "password":data.password,
+                                "phone":data.phone,
+                                "address":data.address,
+                                "course":data.course,
+                            }
+                let user=new User(user_data);
                 user.save()
                     .then((response)=>{
                         res.json({

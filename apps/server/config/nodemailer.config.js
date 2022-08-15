@@ -46,7 +46,7 @@ const sendVerificationCode = async (req, res, next) => {
             if(existing_code){
                 await transporter.sendMail(mailData,(error,info) => {
                     if(error){
-                        console.log(error)
+                        next({status:400,msg:"error sending mail"})
                     }
                     else{
                         let veri_data={verification_code:verification_code_database,email:data.email}
@@ -73,7 +73,7 @@ const sendVerificationCode = async (req, res, next) => {
             else {
                 await transporter.sendMail(mailData,(error,info)=>{
                     if(error){
-                        console.log(error)
+                        next({status:400,msg:"error sending mail"})
                     }
                     else{
                         let veri_data={verification_code:verification_code_database,email:data.email}
@@ -95,8 +95,7 @@ const sendVerificationCode = async (req, res, next) => {
         
     }
     catch(error){
-        console.log(error)
-        next(error)
+        next({status:400,msg:"error sending mail"})
     }
 }
 
