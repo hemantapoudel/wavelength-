@@ -35,6 +35,7 @@ class UserController {
     listAll = async (req,res,next) => {
         try{
             let users = await User.find({},{password:0})
+            
             res.json({
                 result:users,
                 status:true,
@@ -48,6 +49,8 @@ class UserController {
     show = async (req,res,next) => {
         try{
             let user = await User.findById(req.params.id, {password:0});
+           
+           
             res.json({
                 status:true, 
                 user:user, 

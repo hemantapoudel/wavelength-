@@ -2,7 +2,10 @@ const University = require("../models/university.model");
 
 const addUniversity = (req,res,next) => {
     let data = req.body;
-    console.log(data.title)
+    if(req.file){
+        data.profile_pic=req.file.filename;
+    }
+
     try{
         let university = new University(data)
         university.save()

@@ -6,6 +6,6 @@ let uploader = require("../middlewares/uploader.middleware");
 
 
 router.route("/university/add")
-    .post(uploader.single('profile_pic'),addUniversity)
+    .post(parser,uploader.single('profile_pic'),addUniversity)
 
 module.exports = router
