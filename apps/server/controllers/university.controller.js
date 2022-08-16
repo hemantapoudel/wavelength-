@@ -1,11 +1,11 @@
 const University = require("../models/university.model");
+const CONSTANTS=require("../config/constants")
 
 const addUniversity = (req,res,next) => {
     let data = req.body;
     if(req.file){
         data.profile_pic=req.file.filename;
     }
-
     try{
         let university = new University(data)
         university.save()
@@ -21,6 +21,9 @@ const addUniversity = (req,res,next) => {
 
 const updateUniversity = async (req,res,next) => {
     let data = req.body;
+    if(req.file){
+        data.profile_pic=req.file.filename
+    }
     try{
         let result = await University.findByIdAndUpdate(req.params.id,{
             $set:data
@@ -44,6 +47,8 @@ const listUniversities = async (req,res,next) => {
 const showUniversity = async (req,res,next) => {
     try{
         let result = await University.findById(req.params.id)
+        if(result['profile_pic']){result['profile_pic']=CONSTANTS.host + result['profile_pic']}
+        if(result['cover_pic']){result['cover_pic']=CONSTANTS.host + result['cover_pic']}
         res.json({result:result,status:true,msg:"Univerisity fetched successfully"})
     }catch(error){
         next({msg:"Error fetching university"})
