@@ -31,7 +31,7 @@ const updateSubject = async (req,res,next) => {
 
 const listSubjects = async (req,res,next) => {
     try{
-        let subject = await Subject.find({})
+        let subject = await Subject.find({}).populate('course')
         res.json({result:subject,msg:"Subjects fetched successfully"})
         
     } catch(error){
@@ -42,8 +42,6 @@ const listSubjects = async (req,res,next) => {
 const showSubject = async (req,res,next) => {
     try{
         let subject = await Subject.findById(req.params.id).populate('course')
-        //let course = await Course.findById(subject.course)
-        //subject["course"] = course
         res.json({result:subject,status:true,msg:"Subject fetched successfully"})
     }catch(error){
         next({msg:"Error fetching subject"})
