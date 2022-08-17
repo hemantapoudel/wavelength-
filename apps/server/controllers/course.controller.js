@@ -8,6 +8,7 @@ const addCourse = (req,res,next) => {
         course.save()
         res.json({
             status:true,
+            result:course,
             msg:"Course Added Successfully"
         })
 
@@ -30,8 +31,8 @@ const updateCourse = async (req,res,next) => {
 
 const listCourses = async (req,res,next) => {
     try{
-        let courses = await Course.find({})
-        res.json({courses:courses,msg:"Courses fetched successfully"})
+        let courses = await Course.find({}).populate('university')
+        res.json({result:courses,msg:"Courses fetched successfully"})
 
     } catch(error){
         next({msg:"Error showing list of course"})
@@ -40,7 +41,7 @@ const listCourses = async (req,res,next) => {
 
 const showCourse = async (req,res,next) => {
     try{
-        let result = await Course.findById(req.params.id)
+        let result = await Course.findById(req.params.id).populate('university')
         res.json({result:result,status:true,msg:"Course fetched successfully"})
     }catch(error){
         next({msg:"Error fetching course"})

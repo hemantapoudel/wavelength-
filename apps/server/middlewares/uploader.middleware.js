@@ -20,7 +20,7 @@ const uploader = multer({
         let ext = ext_parts.pop();
         
         try{
-            let allowed = ['jpg', 'jpeg', 'png','gif','bmp','webp','svg'];
+            let allowed = ['jpg', 'jpeg', 'png','gif','bmp','webp','svg','pdf'];
             if(allowed.includes(ext.toLowerCase())){
                 cb(null, true);
             } else {

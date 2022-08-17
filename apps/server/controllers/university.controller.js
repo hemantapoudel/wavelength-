@@ -11,6 +11,7 @@ const addUniversity = (req,res,next) => {
         university.save()
         res.json({
             status:true,
+            result:university,
             msg:"University Added Successfully"
         })
 
@@ -37,7 +38,7 @@ const updateUniversity = async (req,res,next) => {
 const listUniversities = async (req,res,next) => {
     try{
         let universities = await University.find({})
-        res.json({universities:universities,msg:"Universities fetched successfully"})
+        res.json({result:universities,msg:"Universities fetched successfully"})
 
     } catch(error){
         next({msg:"Error showing list of universities"})

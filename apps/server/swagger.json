@@ -258,6 +258,34 @@
                     
                 }
             }
+        },
+        "/university/add":{
+            "post":{
+                "tags":["University"],
+                "description":"Add university by super admin",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "Add university by super admin",
+                    "schema": {
+                        "$ref": "#/definitions/addUniversity"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"University added successfully"
+                    },
+                    "500":{
+                        "description":"Error adding university"
+                    },
+                    "401":{
+                        "description":"Unauthorized Access"
+                    }
+                }
+            }
         }
 
 
@@ -384,6 +412,7 @@
             "properties":{
             }
         },
+
         "updateUser":{
             "required":[
                 "password",
@@ -403,7 +432,31 @@
                     "type": "string"
                   }
             }
+        },
+        "addUniversity":{
+            "required":[
+                "title",
+                "profile_pic",
+                "location",
+                "description"
+                
+            ],
+            "properties":{
+                "title": {
+                    "type": "string"
+                  },
+                "profile_pic": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+            }
         }
+
 
 
     }

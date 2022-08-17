@@ -6,6 +6,9 @@ const subject = mongoose.Schema({
     course:{
         type:mongoose.Types.ObjectId,
         ref:"Course"
+    },
+    description:{
+        type:String
     }
 
 })
