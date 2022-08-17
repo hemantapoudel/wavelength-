@@ -3,9 +3,6 @@ const body_parser = require("body-parser")
 const parser = body_parser.json()
 const { addTest, updateTest, listTests, showTest, deleteTest } = require("../controllers/test.controller")
 
-
-
-
 router.route('/test/add')
     .post(parser,addTest)
 router.route('/test/update/:id')
