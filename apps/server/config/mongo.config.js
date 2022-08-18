@@ -11,6 +11,4 @@ mongoose.connect(dbUrl,{
         console.log("Database Connected Successfully !")
     }
 }
-
-
 )

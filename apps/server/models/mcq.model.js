@@ -11,6 +11,10 @@ const MCQSchema = new mongoose.Schema({
     question:{
         type:String,
     },
+    mark:{
+        type:String,
+        default:"1"
+    },
     A:{
         type:String,
     },
@@ -26,7 +30,7 @@ const MCQSchema = new mongoose.Schema({
     solution:{
         type:String,
     },
-    iscorrect:{
+    correct_ans:{
         type:String,
         enum:['A','B','C','D']
     }

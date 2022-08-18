@@ -15,6 +15,10 @@ const test = mongoose.Schema({
         type:Boolean,
         default:false
     },
+    is_negative_marking:{
+        type:Boolean,
+        default:false
+    },
     start_time:{
         type:Date
     },
