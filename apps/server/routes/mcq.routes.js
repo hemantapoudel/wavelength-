@@ -1,6 +1,6 @@
 const router = require("express").Router()
 const body_parser = require("body-parser")
-const { addMCQ, addManyMCQ, listAllMcqs, mcqCheck, fetchMcqs } = require("../controllers/mcq.controller")
+const { addMCQ, addManyMCQ, listAllMcqs, mcqCheck, fetchMcqs, updateMcqs, deleteMcqs } = require("../controllers/mcq.controller")
 const parser = body_parser.json()
 
 router.route("/mcq/add")
@@ -13,5 +13,9 @@ router.route("/mcq/fetch")
     .post(parser,fetchMcqs)
 router.route("/mcq/check")
     .post(parser,mcqCheck)
+router.route("/mcq/update/:id")
+    .put(parser,updateMcqs)
+router.route("/mcq/delete/:id")
+    .delete(parser,deleteMcqs)
 
 module.exports = router

@@ -61,10 +61,6 @@ const fetchMcqs = async (req, res, next) => {
 }
 
 
-
-
-
-
 const mcqCheck = async (req, res, next) => {
     data = req.body;
     try {
@@ -119,8 +115,33 @@ const mcqCheck = async (req, res, next) => {
     }
 }
 
+const updateMcqs = async (req,res,next)=>{
+    let data = req.body
+    try{
+        let result = await MCQ.findByIdAndUpdate(req.params.id,{
+            $set:data
+        })
+        res.json({status:true,msg:"MCQ Updated Successfully"})
+
+    } catch(error){
+        next({msg:"Error updating mcq"})
+    }
+}
+
+const deleteMcqs = async (req,res,next) => {
+    let data = req.body
+    try{
+        let result = await MCQ.findByIdAndDelete(req.params.id)
+        res.json({
+            msg:"Successfully deleted mcq",
+            result:result
+        })
+    
+    } catch(error){
+        next({msg:"Error deleting mcqs"})
+    }
+}
 
 
 
-
-module.exports = { addMCQ, addManyMCQ, listAllMcqs, mcqCheck, fetchMcqs }
+module.exports = { addMCQ, addManyMCQ, listAllMcqs, mcqCheck, fetchMcqs, updateMcqs, deleteMcqs}
