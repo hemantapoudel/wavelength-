@@ -11,6 +11,10 @@ const subject = mongoose.Schema({
         type:String
     }
 
+},{
+    timestamps:true,
+    autoIndex:true,
+    autoCreate:true
 })
 const Subject = mongoose.model("Subject",subject);
 module.exports=Subject

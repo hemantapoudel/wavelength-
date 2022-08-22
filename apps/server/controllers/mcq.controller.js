@@ -1,5 +1,6 @@
 const MCQ = require("../models/mcq.model")
 const Test = require("../models/test.model")
+const Result = require("../models/result.model")
 
 const addMCQ = (req, res, next) => {
     let data = req.body;
@@ -46,7 +47,6 @@ const listAllMcqs = async (req, res, next) => {
 
 const fetchMcqs = async (req, res, next) => {
     let data = req.body;
-    console.log(data.test)
     try {
         let mcqs = await MCQ.find({ test: data.test }, { correct_ans: 0, solution: 0, createdAt: 0, updatedAt: 0, __v: 0 })
         res.json({
@@ -64,7 +64,7 @@ const fetchMcqs = async (req, res, next) => {
 const mcqCheck = async (req, res, next) => {
     data = req.body;
     try {
-        let mcq = await MCQ.find({ test: data.test }).populate('test')
+        let mcq = await MCQ.find({ test: data.test }).populate('test').populate('subject')
         let user_data = data.mcqs
         let score = 0;
         let correct_ans = [];
@@ -105,7 +105,11 @@ const mcqCheck = async (req, res, next) => {
                 total_marks += Number(correct_ans[i].mark)
             }
         }
-        res.json({ msg: `${mcq.length} mcqs fetched`, correct_ans: correct_ans, incorrect_ans: incorrect_ans, 
+        let user_result = {test:data.test,submitted_by:req.auth_user,total_marks:total_marks}
+        let save_result = new Result(user_result)
+        save_result.save()
+
+        res.json({ msg: `${mcq.length} mcqs Checked`, correct_ans: correct_ans, incorrect_ans: incorrect_ans, 
                     null_ans: null_ans, marks_obtained: marks_obtained, negative_marks: negative_marks, 
                     unanswered_marks: unanswered_marks,total_marks:total_marks })
 

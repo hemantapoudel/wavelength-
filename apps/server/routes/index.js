@@ -9,7 +9,7 @@ const course_routes = require("./course.routes")
 const subject_routes = require("./subject.routes")
 const test_routes = require("./test.routes")
 const mcq_routes = require("./mcq.routes")
-
+const result_routes = require("./result.routes")
 
 app.use("/",auth_routes)
 app.use("/",user_routes)
@@ -19,4 +19,5 @@ app.use("/",upload_routes)
 app.use("/",subject_routes)
 app.use("/",test_routes)
 app.use("/",mcq_routes)
+app.use("/",result_routes)
 module.exports=app
