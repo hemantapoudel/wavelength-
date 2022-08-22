@@ -3,7 +3,7 @@ const Result = require("../models/result.model")
 const showResult = async (req,res,next) => {
     let data = req.body;
     try{
-        let result = await Result.find({test:req.params.id})
+        let result = await Result.find({test:data.test})
         res.json({
             msg:"Result fetched successfully",
             result:result
