@@ -45,9 +45,14 @@ const college=mongoose.Schema({
     admission_process:{
         type:String,
     },
+    is_display:{
+        type:Boolean,
+        default:false
+    },
     views_count:{
         type:String,
     },
+
     
 
 },{
