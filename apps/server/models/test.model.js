@@ -26,6 +26,10 @@ const test = mongoose.Schema({
         type:Date
     }
 
+},{
+    timestamps:true,
+    autoIndex:true,
+    autoCreate:true
 })
 const Test = mongoose.model("Test",test);
 module.exports=Test

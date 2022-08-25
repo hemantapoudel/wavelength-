@@ -8,6 +8,10 @@ const image = mongoose.Schema({
         ref:"User"
     }
 
+},{
+    timestamps:true,
+    autoIndex:true,
+    autoCreate:true
 })
 const Image = mongoose.model("Image",image);
 module.exports=Image
