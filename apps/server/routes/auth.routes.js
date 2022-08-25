@@ -13,7 +13,7 @@ router.route("/register")
     .post(parser,uploader.single('profile_pic'),auth_controller.register)
 
 router.route("/login")
-    .post(parser,auth_controller.login)
+    .post(parser,uploader.single('profile_pic'),auth_controller.login)
 //{"email":"xyz@gmail.com","password":"password"}
 
 router.route("/send-verification-code")

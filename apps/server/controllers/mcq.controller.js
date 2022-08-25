@@ -46,7 +46,7 @@ const listAllMcqs = async (req, res, next) => {
 
 const fetchMcqs = async (req, res, next) => {
     let data = req.body;
-    console.log(data.test)
+    
     try {
         let mcqs = await MCQ.find({ test: data.test }, { correct_ans: 0, solution: 0, createdAt: 0, updatedAt: 0, __v: 0 })
         res.json({

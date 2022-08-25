@@ -1,7 +1,8 @@
 const express = require("express")
 const app = express()
 require("./config/mongo.config")
-
+const cors = require('cors')
+app.use(cors({origin:'*'}))
 
 const routes = require("./routes/index")
 app.use("/api/v1",routes)
