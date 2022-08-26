@@ -5,14 +5,14 @@ const { isLoggedIn } = require("../middlewares/logincheck.middleware")
 const parser = body_parser.json()
 
 router.route("/blog/add")
-    .post(parser,addBlog)
+    .post(isLoggedIn,parser,addBlog)
 router.route('/blog/update/:id')
-    .put(parser,updateBlog)
+    .put(isLoggedIn,parser,updateBlog)
 router.route('/blog/listall')
     .get(parser,listAllBlogs)
 router.route('/blog/fetch/:id')
     .get(parser,fetchBlog)
 router.route('/blog/delete/:id')
-    .delete(parser,deleteBlog)
+    .delete(isLoggedIn,parser,deleteBlog)
 
 module.exports = router

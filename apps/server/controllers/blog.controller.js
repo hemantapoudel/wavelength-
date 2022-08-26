@@ -1,10 +1,14 @@
 const Blog = require("../models/blog.model")
+const Log = require("../models/activity_log.model")
 
 const addBlog = (req,res,next) => {
     let data = req.body;
     try{
         let add_blog = new Blog(data)
         add_blog.save()
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} added a blog with blog id ${add_blog.id}`,action:"create"}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             msg:"Blog added successfully",
             result:add_blog
@@ -21,6 +25,9 @@ const updateBlog = async (req,res,next) => {
         let update_blog = await Blog.findByIdAndUpdate(req.params.id,{
             $set:data
         })
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} updated a blog with blog id ${update_blog.id}`,action:"update"}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             msg:"Successfully updated blog"
         })
@@ -47,6 +54,7 @@ const fetchBlog = async (req,res,next) => {
     let data = req.body
     try{
         let blog = await Blog.findById(req.params.id)
+        console.log(req.ip)
         res.json({
             msg:"Blog fetched successfully",
             result:blog
@@ -60,6 +68,9 @@ const fetchBlog = async (req,res,next) => {
 const deleteBlog = async (req,res,next) => {
     try{
         let blog = await Blog.findByIdAndDelete(req.params.id)
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} deleted a blog with blog id ${blog.id}`,action:"delete"}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             msg:"blog deleted successfully",
             result:blog

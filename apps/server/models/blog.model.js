@@ -21,6 +21,12 @@ const blog = mongoose.Schema({
     is_display:{
         type:Boolean,
         default:false
+    },
+    created_by:{
+        type:String
+    },
+    updated_by:{
+        type:Object
     }
 },{
     timestamps:true,
