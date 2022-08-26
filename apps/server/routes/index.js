@@ -12,6 +12,7 @@ const mcq_routes = require("./mcq.routes")
 const result_routes = require("./result.routes")
 const blog_routes = require("./blog.routes")
 const notice_routes = require("./notice.routes")
+const college_routes = require("./college.routes")
 
 
 
@@ -26,5 +27,6 @@ app.use("/",mcq_routes)
 app.use("/",result_routes)
 app.use("/",blog_routes)
 app.use("/",notice_routes)
+app.use("/",college_routes)
 
 module.exports=app

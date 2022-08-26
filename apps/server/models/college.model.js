@@ -51,6 +51,7 @@ const college=mongoose.Schema({
     },
     views_count:{
         type:String,
+        default:"0"
     },
 
     

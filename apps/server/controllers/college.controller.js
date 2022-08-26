@@ -47,9 +47,13 @@ const fetchCollege = async (req,res,next) => {
     let data = req.body
     try{
         let college = await College.findById(req.params.id)
+        let views = Number(college.views_count)+1
+        let update_view = await College.findByIdAndUpdate(req.params.id,{
+            $set:{views_count:views}
+        })
         res.json({
             msg:"College fetched successfully",
-            result:college
+            result:college,
         })
 
     } catch(error){
