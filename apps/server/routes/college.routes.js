@@ -6,14 +6,14 @@ const uploader = require("../middlewares/uploader.middleware")
 const parser = body_parser.json()
 
 router.route("/college/add")
-    .post(parser,uploader.single('image'),addCollege)
+    .post(isLoggedIn,parser,uploader.single('image'),addCollege)
 router.route('/college/update/:id')
-    .put(parser,uploader.single('image'),updateCollege)
+    .put(isLoggedIn,parser,uploader.single('image'),updateCollege)
 router.route('/college/listall')
     .get(parser,listAllColleges)
 router.route('/college/fetch/:id')
     .get(parser,fetchCollege)
 router.route('/college/delete/:id')
-    .delete(parser,deleteCollege)
+    .delete(isLoggedIn,parser,deleteCollege)
 
 module.exports = router

@@ -6,7 +6,7 @@ const addBlog = (req,res,next) => {
     try{
         let add_blog = new Blog(data)
         add_blog.save()
-        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} added a blog with blog id ${add_blog.id}`,action:"create"}
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} added a blog with blog id ${add_blog.id}`,action:"create",ip:req.ip}
         let log=new Log(log_data)
         log.save()
         res.json({
@@ -25,7 +25,7 @@ const updateBlog = async (req,res,next) => {
         let update_blog = await Blog.findByIdAndUpdate(req.params.id,{
             $set:data
         })
-        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} updated a blog with blog id ${update_blog.id}`,action:"update"}
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} updated a blog with blog id ${update_blog.id}`,action:"update",ip:req.ip}
         let log=new Log(log_data)
         log.save()
         res.json({
@@ -68,7 +68,7 @@ const fetchBlog = async (req,res,next) => {
 const deleteBlog = async (req,res,next) => {
     try{
         let blog = await Blog.findByIdAndDelete(req.params.id)
-        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} deleted a blog with blog id ${blog.id}`,action:"delete"}
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} deleted a blog with blog id ${blog.id}`,action:"delete",ip:req.ip}
         let log=new Log(log_data)
         log.save()
         res.json({

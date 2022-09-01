@@ -1,12 +1,16 @@
 const MCQ = require("../models/mcq.model")
 const Test = require("../models/test.model")
 const Result = require("../models/result.model")
+const Log = require("../models/activity_log.model")
 
 const addMCQ = (req, res, next) => {
     let data = req.body;
     try {
         let mcq = new MCQ(data)
         mcq.save()
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} added a mcq with id ${mcq.id}`,action:"create",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({ result: mcq, msg: "MCQ added successfully" })
     } catch (error) {
         next({ msg: "Error adding mcq" })
@@ -17,6 +21,9 @@ const addManyMCQ = async (req, res, next) => {
     let data = req.body;
     try {
         let mcqs = await MCQ.insertMany(data)
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} added ${data.length} mcqs`,action:"create",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             msg: `${data.length} MCQs added successfully`,
             result: mcqs,
@@ -125,6 +132,9 @@ const updateMcqs = async (req,res,next)=>{
         let result = await MCQ.findByIdAndUpdate(req.params.id,{
             $set:data
         })
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} updated a mcq with id ${result.id}`,action:"update",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({status:true,msg:"MCQ Updated Successfully"})
 
     } catch(error){
@@ -136,6 +146,9 @@ const deleteMcqs = async (req,res,next) => {
     let data = req.body
     try{
         let result = await MCQ.findByIdAndDelete(req.params.id)
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} deleted a mcq with id ${result.id}`,action:"delete",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             msg:"Successfully deleted mcq",
             result:result

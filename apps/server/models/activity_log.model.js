@@ -9,6 +9,9 @@ const log = mongoose.Schema({
     },
     action:{
         type:String
+    },
+    ip:{
+        type:String
     }
 
 },{

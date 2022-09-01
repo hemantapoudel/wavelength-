@@ -1,10 +1,13 @@
 const College = require("../models/college.model")
-
+const Log = require("../models/activity_log.model")
 const addCollege = (req,res,next) => {
     let data = req.body;
     try{
         let add_college = new College(data)
         add_college.save()
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} added a college with id ${add_college.id}`,action:"create",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             msg:"college added successfully",
             result:add_college
@@ -21,6 +24,9 @@ const updateCollege = async (req,res,next) => {
         let update_college = await College.findByIdAndUpdate(req.params.id,{
             $set:data
         })
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} updated a college with id ${update_college.id}`,action:"update",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             msg:"Successfully updated college"
         })
@@ -64,6 +70,9 @@ const fetchCollege = async (req,res,next) => {
 const deleteCollege = async (req,res,next) => {
     try{
         let college = await College.findByIdAndDelete(req.params.id)
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} deleted a college with id ${college.id}`,action:"delete",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             msg:"College deleted successfully",
             result:college
