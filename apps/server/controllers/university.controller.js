@@ -1,5 +1,8 @@
 const University = require("../models/university.model");
 const CONSTANTS=require("../config/constants")
+const Log = require("../models/activity_log.model")
+
+
 
 const addUniversity = (req,res,next) => {
     let data = req.body;
@@ -9,6 +12,9 @@ const addUniversity = (req,res,next) => {
     try{
         let university = new University(data)
         university.save()
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} added a university with blog id ${university.id}`,action:"create",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             status:true,
             result:university,
@@ -29,6 +35,9 @@ const updateUniversity = async (req,res,next) => {
         let result = await University.findByIdAndUpdate(req.params.id,{
             $set:data
         })
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} updated a university with blog id ${result.id}`,action:"update",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({status:true,msg:"University Updated Successfully"})
     } catch(error){
         next({msg:"Error updating University"})
@@ -59,6 +68,9 @@ const showUniversity = async (req,res,next) => {
 const deleteUniveristy = async (req,res,next)=>{
     try{
         let result = await University.findByIdAndDelete(req.params.id)
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} deleted a university with blog id ${result.id}`,action:"delete",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({result:result,status:true,msg:"University Deleted Successfully"})
 
     } catch(error){
