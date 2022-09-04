@@ -1,10 +1,14 @@
 const Notice = require("../models/notice.model")
+const Log = require("../models/activity_log.model")
 
 const addNotice = (req,res,next) => {
     let data = req.body;
     try{
         let add_notice = new Notice(data)
         add_notice.save()
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} added a Notice with id ${add_notice.id}`,action:"create",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             msg:"Notice added successfully",
             result:add_notice
@@ -21,6 +25,9 @@ const updateNotice = async (req,res,next) => {
         let update_notice = await Notice.findByIdAndUpdate(req.params.id,{
             $set:data
         })
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} updated a Notice with id ${update_notice.id}`,action:"update",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             msg:"Successfully updated notice"
         })
@@ -60,6 +67,9 @@ const fetchNotice = async (req,res,next) => {
 const deleteNotice = async (req,res,next) => {
     try{
         let notice = await Notice.findByIdAndDelete(req.params.id)
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} deleted a Notice with id ${notice.id}`,action:"delete",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
         res.json({
             msg:"Notice deleted successfully",
             result:notice
