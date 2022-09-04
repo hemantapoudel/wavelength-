@@ -2,6 +2,7 @@ const User=require("../models/user.model")
 const bcrypt=require('bcrypt')
 const CONSTANTS=require("../config/constants")
 const jwt = require("jsonwebtoken")
+const Log = require("../models/activity_log.model")
 
 class AuthController{
 
@@ -82,6 +83,9 @@ class AuthController{
                     .catch((error)=>{
                         next(error)
                     })
+                    let log_data = {user:user.id,message:`User registered with name ${user.full_name} and user id ${user.id}`,action:"create",ip:req.ip}
+                    let log=new Log(log_data)
+                    log.save()
             }
 
         } catch(error){

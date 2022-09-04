@@ -79,7 +79,7 @@ const mcqCheck = async (req, res, next) => {
         let null_ans = [];
         let is_negative_marking = mcq[0].test.is_negative_marking
 
-        for (let i = 0; i < mcq.length; i++) {
+        for (let i = 0; i < user_data.length; i++) {
             if (user_data[i].correct_ans == mcq[i].correct_ans) {
                 correct_ans.push(mcq[i])
             } else if (user_data[i].correct_ans == '') {
@@ -116,7 +116,11 @@ const mcqCheck = async (req, res, next) => {
         let save_result = new Result(user_result)
         save_result.save()
 
-        res.json({ msg: `${mcq.length} mcqs Checked`, correct_ans: correct_ans, incorrect_ans: incorrect_ans, 
+        let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} attempted the test with test id ${data.test} and scored ${total_marks} Marks`,action:"create",ip:req.ip}
+        let log=new Log(log_data)
+        log.save()
+
+        res.json({ msg: `${user_data.length} mcqs Checked`, correct_ans: correct_ans, incorrect_ans: incorrect_ans, 
                     null_ans: null_ans, marks_obtained: marks_obtained, negative_marks: negative_marks, 
                     unanswered_marks: unanswered_marks,total_marks:total_marks })
 
