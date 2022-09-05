@@ -1,6 +1,7 @@
 const User = require("../models/user.model")
 const bcrypt = require("bcrypt");
 const { findByIdAndUpdate } = require("../models/user.model");
+const Log = require("../models/activity_log.model")
 
 class UserController {
     addUser = async (req, res, next) => {
@@ -24,6 +25,9 @@ class UserController {
                     profile_pic:data.profile_pic,
                 });
                 user.save()
+                let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} added a user manually with name ${data.full_name} and user id ${user.id}`,action:"create",ip:req.ip}
+                let log=new Log(log_data)
+                log.save()
                 res.json({status:true,msg:"User Registered Successfully"})
             }
         } 
@@ -64,6 +68,9 @@ class UserController {
     deleteUser = async (req, res, next) => {
         try{    
             let delete_user = await User.findByIdAndDelete(req.params.id);
+            let log_data = {user:req.auth_user.id,message:`${req.auth_user.full_name} Deleted a user with name ${delete_user.full_name} and user id ${delete_user.id}`,action:"delete",ip:req.ip}
+            let log=new Log(log_data)
+            log.save()
             res.json({
                 result:delete_user,
                 status:true,
