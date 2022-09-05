@@ -2,6 +2,8 @@ const nodemailer=require("nodemailer")
 const Verify=require("../models/verification.model")
 const User=require("../models/user.model");
 const bcrypt = require("bcrypt")
+const Log = require("../models/activity_log.model")
+
 
 const transporter = nodemailer.createTransport({
     host:"mail.binaryentrance.com",
@@ -114,13 +116,14 @@ const verify_user = async (req,res,next) => {
             let verify_user = await User.findByIdAndUpdate(user._id,{
                 $set:update_user
             })
+            let log_data = {user:verify_user.id,message:`User with name ${verify_user.full_name} verified onself`,action:"update",ip:req.ip}
+            let log=new Log(log_data)
+            log.save()
             res.json({
                 status:true,
                 msg:"User Verified Successfully"
             })
             let delete_code = await Verify.findByIdAndDelete(code_data._id)
-            console.log(delete_code)
-
         }
 
     }
