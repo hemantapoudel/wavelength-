@@ -13,7 +13,8 @@ const result_routes = require("./result.routes")
 const blog_routes = require("./blog.routes")
 const notice_routes = require("./notice.routes")
 const college_routes = require("./college.routes")
-
+const log_routes = require("./log.routes")
+const send_sms_route = require("./send_sms.route")
 
 
 app.use("/",auth_routes)
@@ -28,5 +29,7 @@ app.use("/",result_routes)
 app.use("/",blog_routes)
 app.use("/",notice_routes)
 app.use("/",college_routes)
+app.use("/",log_routes)
+app.use("/",send_sms_route)
 
 module.exports=app
