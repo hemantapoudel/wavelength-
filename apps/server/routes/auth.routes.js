@@ -16,11 +16,11 @@ router.route("/login")
     .post(parser,uploader.single('profile_pic'),auth_controller.login)
 //{"email":"xyz@gmail.com","password":"password"}
 
-router.route("/send-verification-code")
+router.route("/send-email-verification-code")
     .post(parser,sendVerificationCode)
 //{"email":"xyz@gmail.com"}
 
-router.route("/verify-user")
+router.route("/email-verify-user")
     .put(parser,verify_user)
 //{"email":"xyz@gmail.com","verification_code":"2334"}
 

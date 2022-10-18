@@ -25,6 +25,13 @@ class AuthController{
                         msg:"Password Doesn't matched"
                     })
                 }
+                else if(!result.is_active){
+                    res.status(400).json({
+                        result:null,
+                        status:false,
+                        msg:"You have been blocked due to violation of code of conduct"
+                    })
+                }
                 else{
                     let token = this.generateToken({
                         id:result._id,
@@ -54,6 +61,17 @@ class AuthController{
 
     register = async (req,res,next)=>{
         let data = req.body;
+
+        const random_num = () => {
+            return Math.floor(1000 + Math.random() * 9000);
+        }
+        const six_digit_random = () => {
+            return Math.floor(100000 + Math.random() * 900000);
+        }
+        
+        let refer_id = data.full_name.toUpperCase()+random_num().toString()
+        let wavelength_id = "WL"+six_digit_random().toString()
+        
         if(req.file){
             data.profile_pic=req.file.filename;
         }
@@ -69,7 +87,10 @@ class AuthController{
                                 "phone":data.phone,
                                 "address":data.address,
                                 "course":data.course,
-                                "profile_pic":data.profile_pic
+                                "profile_pic":data.profile_pic,
+                                "refer_id":refer_id,
+                                "wavelength_id":wavelength_id,
+                                "refered_by":data.refered_by
                             }
                 let user=new User(user_data);
                 user.save()

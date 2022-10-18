@@ -64,7 +64,7 @@
             }
         },
 
-        "/send-verification-code":{
+        "/send-email-verification-code":{
             "post":{
                 "tags":["Verification"],
                 "description":"Verify through email",
@@ -93,7 +93,7 @@
             }
         },
 
-        "/verify-user":{
+        "/email-verify-user":{
             "put":{
                 "tags":["Verification"],
                 "description":"Verify through email",
