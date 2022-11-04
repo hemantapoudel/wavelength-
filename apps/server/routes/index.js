@@ -15,6 +15,7 @@ const notice_routes = require("./notice.routes")
 const college_routes = require("./college.routes")
 const log_routes = require("./log.routes")
 const send_sms_route = require("./send_sms.route")
+const forget_password_route = require("./forget_password.routes")
 
 
 app.use("/",auth_routes)
@@ -31,5 +32,6 @@ app.use("/",notice_routes)
 app.use("/",college_routes)
 app.use("/",log_routes)
 app.use("/",send_sms_route)
+app.use("/",forget_password_route)
 
 module.exports=app

@@ -12,15 +12,15 @@ const sendSms = async (req,res,next) => {
     let data=req.body
     let otp=generateOTP().toString()
     let existing_phone = await Verify.findOne({phone:data.phone})
-    let userWithPhone = await User.findOne({phone:data.phone})
     try{
-        if(userWithPhone){
-            next({msg:"User with such phone number already exist"})
-        }
+        let user = await User.findOne({phone:data.phone})
+        if(!user){
+            next({msg:"User with such phone number doesn't exist"})
+        } else{
         const response = await axios.post('https://sms.aakashsms.com/sms/v3/send',{
             auth_token:CONSTANTS.sms_auth_token,
             to:data.phone,
-            text: `Your OTP for Verification is ${otp}. - Wavelength Academy`
+            text: `Use the OTP ${otp} to reset your password. - Wavelength Academy`
         })
         res.json({
             msg:"OTP sent successfully"
@@ -31,33 +31,33 @@ const sendSms = async (req,res,next) => {
         } else{
             await Verify.findOneAndUpdate({phone:data.phone},{otp:otp})
         }
-
+    }
     } catch(error){
         next({msg:"Error sending otp"})
     }
 }
 
-const verifyPhone = async (req,res,next) => {
+const resetPassword = async (req,res,next) => {
     let data = req.body
     try{
         let user_otp = data.otp
         let user_phone = data.phone
+        let new_password = bcrypt.hashSync(data['new_password'],10)
         let actual_otp = await Verify.findOne({phone:user_phone})
 
         if(actual_otp.otp==user_otp){
-            res.json({msg:"OTP Verified Successfully"})
+            let reset = {password:new_password}
+            let userUpdate = await User.findOneAndUpdate({phone:user_phone},{
+            $set:reset
+        })
+            res.json({msg:"Password reset successfully"})
             await Verify.findOneAndDelete({phone:user_phone})
         } else{
-            res.status(401).json({msg:"Enter the correct OTP for verification"})
+            res.status(401).json({msg:"Enter the correct OTP"})
         }
-
-
     } catch(error){
-        next({msg:"Error while verifying user, try sending otp again"})
+        next({msg:"Error while reseting password, try reseting password again"})
     }
 }
 
-
-
-
-module.exports = {sendSms,verifyPhone}
+module.exports = {sendSms,resetPassword}

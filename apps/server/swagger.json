@@ -12,6 +12,60 @@
     "consumes": ["application/json"],
     "produces": ["application/json"],
     "paths":{
+        "/sms-verification/send":{
+            "post":{
+                "tags":["Login & Register"],
+                "description":"sending otp to verify phone number",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "sending otp to phone number",
+                    "schema": {
+                        "$ref": "#/definitions/sms-otp-verification"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"OTP sent successfully"
+                    },
+                    "500":{
+                        "description":"Error Sending OTP"
+                    }
+                }
+            }
+        },
+        "/sms-verify":{
+            "post":{
+                "tags":["Login & Register"],
+                "description":"verifying otp",
+                "parameters":[{
+                    "name": "user",
+                    "in": "body",
+                    
+                    "description": "verifying otp entered by user",
+                    "schema": {
+                        "$ref": "#/definitions/verify-otp"
+                      }
+                }],
+                
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"OTP verified successfully"
+                    },
+                    "401":{
+                        "description":"Enter the correct OTP for verification"
+                    },
+                    "500":{
+                        "description":"Error while verifying user, try sending otp again"
+                    }
+                }
+            }
+        },
+
         "/login":{
             "post":{
                 "tags":["Login & Register"],
@@ -259,6 +313,7 @@
                 }
             }
         },
+
         "/university/add":{
             "post":{
                 "tags":["University"],
@@ -289,10 +344,37 @@
         }
 
 
-
     },
 
     "definitions":{
+        "sms-otp-verification":{
+            "required":[
+                "phone"
+        
+            ],
+            "properties":{
+                "phone": {
+                    "type": "string"
+                  }
+            }
+        },
+
+        "verify-otp":{
+            "required":[
+                "phone",
+                "otp"
+        
+            ],
+            "properties":{
+                "phone": {
+                    "type": "string"
+                  },
+                  "otp": {
+                    "type": "string"
+                  }
+            }
+        },
+
         "login":{
             "required":[
                 "email",

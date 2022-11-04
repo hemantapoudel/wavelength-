@@ -9,7 +9,7 @@ class AuthController{
     login = async (req,res,next) =>{
         let data=req.body;
         try{
-            let result=await User.findOne({email:data.email})
+            let result=await User.findOne({phone:data.phone})
             if(!result){
                 res.status(400).json({
                     result:null,
@@ -77,10 +77,15 @@ class AuthController{
         }
         data['password']=bcrypt.hashSync(data['password'],10);
         try{
-            let user=await User.findOne({email:data.email});
-            if(user){
+            let userWithEmail = await User.findOne({email:data.email});
+            let userWithPhone = await User.findOne({phone:data.phone});
+            if(userWithEmail){
                 next({status:400,msg:"Email Already Registered"})
-            } else{
+            } 
+            else if(userWithPhone){
+                next({status:400,msg:"Phone Number Already Registered"})
+            } 
+            else{
                 let user_data = {"full_name":data.full_name,
                                 "email":data.email,
                                 "password":data.password,
